@@ -6,6 +6,9 @@ class Server:
         self.host = host
         self.port = port
 
-
+    def listen(self):
+        if(hasattr(self,'host') && hasattr(self,'port')):
+            if(self.port):
+                self.socket.bind((self.host,self.port))
     def __init__(self):
         self.socket = socket(AF_INET,SOCK_STREAM)

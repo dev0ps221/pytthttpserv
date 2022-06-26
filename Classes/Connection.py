@@ -5,14 +5,14 @@ class Connection:
 
 
     def handleRequest(self,data):
-
-        print('data')
+        response = ''
+        requestline = data.split('\n')[0]
 
         return response
 
     def interact(self):
         while True:
-            data = self.socket.recv()
+            data = self.socket.recv(65000)
             response = self.handleRequest(data)
             self.socket.send(response.encode())
 
@@ -27,6 +27,7 @@ class Connection:
         self.connectport = self.address[1]
         print('new connection with data')
         print(self.connectport,self.connecthost,self.socket)
+        self.interact()
 
 
 

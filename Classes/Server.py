@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
+from time import sleep
+from os import system
 from sys import exit
 from threading import Thread
 from socket import socket,AF_INET,SOCK_STREAM
 from .Connection import ConnectionManager
 
 
-
+def cls():
+    system("clear")
 
 class Server:
+
     threads = []
+
     def setRefs(self,host,port):
         self.host = host
         self.port = port
+
 
     def listen(self):
         try:
@@ -21,7 +27,8 @@ class Server:
                     if(self.port):
                         self.socket.bind((self.host,self.port))
                         self.socket.listen()
-                        while True:
+                        self.listening = True
+                        while self.quit == False:
                             conn = self.socket.accept()
                             thread = Thread(target=self.connections.newConnection,args=(conn,))
                             thread.start()
@@ -34,11 +41,27 @@ class Server:
             for thread in self.threads:
                 thread.join()
             self.socket.close()
+            self.quit = True
             print('done')
             print('server socket destroyed')
             print('exiting..')
             exit(1)
-            
+
+    def recap(self):
+        while self.quit == False:
+            if(self.listening):
+                print(f"-------------------------------------------------")
+                print(f"Le server http est actif sur le port | {sel.port}")
+            else:
+                print("Le server n'est pas actif..")
+                print("Voici les parametres actuellement définis:")
+                
+
+            sleep(2)                   
+
     def __init__(self):
+        self.quit = False
+        self.listening = False
         self.socket = socket(AF_INET,SOCK_STREAM)
         self.connections = ConnectionManager(self)
+        self.recapThread = Thread(target=self.recap)

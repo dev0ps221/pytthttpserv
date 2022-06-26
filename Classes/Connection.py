@@ -13,6 +13,10 @@ class Request:
     def getHeaders(self):
         return self.headers
 
+    def setSomeInfosProps(self):
+        self.setHeaders()
+
+
     def __init__(self,data):
         self.rawdata = data
         self.data = data.decode()
@@ -23,7 +27,7 @@ class Request:
         self.headerline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
         self.bodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}
-        self.setHeaders()
+        self.setSomeInfosProps()
         
 
 

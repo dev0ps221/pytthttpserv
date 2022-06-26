@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+from os import getcwd,path
 from datetime import datetime
 from .request import Request
 from .response import Response
 
 
+here = getcwd()
 
 class Connection:
 
@@ -12,18 +14,25 @@ class Connection:
         rawdata = data
         request = Request(data)
         response = Response(data,self.socket)
-        
-        if(request.method == "GET"):
-            print(f" tryna get {request.target}")
-
         return request,response
 
 
     def interact(self):
         while self.conti:
             data = self.socket.recv(65000)
-            request,response = self.handleRequest(data)
-            
+            request,response = self.handleRequest(data)            
+            if(request.method == "GET"):
+                targetpath = f"={self.manager.server.viewspath}/{request.target}"
+                print(f" tryna get {request.target}")
+                matchedIndex = []
+                if(path.isdir(targetpath)):
+                    dircontent = self.manager.server.getDirContent(targetpath)
+                    if len(dircontent):
+                        for filename in dircontent:
+                            for indexfile in self.manager.server.indexFiles:
+                                matchedIndex.append(filename)
+                if len(matchedIndex)
+
 
 
     def __init__(self,man,data,conn_time):

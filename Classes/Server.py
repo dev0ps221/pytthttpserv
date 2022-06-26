@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 from time import sleep
-from os import system
+from os import system,scandir,getcwd
 from sys import exit
 from threading import Thread
 from socket import socket,AF_INET,SOCK_STREAM
-from .Connection import ConnectionManager
+from .Connection import ConnectionManager,here
+
 
 
 def cls():
@@ -14,7 +15,10 @@ def cls():
 class Server:
 
     threads = []
-
+    viewspath = f"{here}/html" 
+    indexFiles = ['index.php','index.html','index']
+    def getDirContent(self,pathname):
+        return [elem for elem in scandir(pathname)]
 
     def setRefs(self,host,port):
         self.host = host

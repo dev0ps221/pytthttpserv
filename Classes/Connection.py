@@ -24,20 +24,32 @@ class Request:
         self.bodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}
         self.setHeaders()
+        
 
 
 class Response:
 
     def setHeaders(self):
         for header in self.headerline.split('\r\n'):
-            print(header)
             name = header.split(':')[0]
             val = ':'.join(header.split(':')[1:])
             self.headers[name] = val 
     
-    def setStaus(self,code,text):
-        self.statusline
+    def setStatus(self,code,text):
+        self.setStatusCode(if code code else self.statusCode)
+        self.setStatusText(if text text else self.statusText)
 
+    def setStatusLine(self):
+        self.statusline = f"{self.requestprotocolversion} {self.statusCode} {self.statusText}\r\n"
+    
+    def setStatusCode(self,code):
+        self.statusCode = code
+        self.setStatusLine()
+    
+    def setStatusText(self,text):
+        self.statusText = text
+        self.setStatusLine()
+    
     def getHeaders(self):
         return self.headers
 
@@ -62,6 +74,8 @@ class Connection:
         request = Request(data)
         response = Response(data)
         
+
+
         return request,response
 
 

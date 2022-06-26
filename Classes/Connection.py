@@ -5,6 +5,8 @@ class Connection:
 
 
     def handleRequest(self,data):
+        rawdata = data
+        data = data.decode()
         response = ''
         requestline = data.split('\n')[0]
         print(requestline)
@@ -34,8 +36,22 @@ class Connection:
 class ConnectionManager:
     connections = []
     def newConnection(self,data):
-       self.connections.append(Connection(data,datetime.now()))
-    def __init__(self,socket):
-        self.socket = socket
+        try:
+            self.connections.append(Connection(data,datetime.now()))
+        except KeyboardInterrupt as e:
+            print("Requested exit..shutting down server")
+            print('killing server threads')
+            for thread in self.server.threads:
+                thread.join()
+            self.socket.close()
+            self.socket.destroy()
+            print('done')
+            print('server socket destroyed')
+            print('exiting..')
+            exit(1)
+            
+    def __init__(self,server):
+        self.server = server
+        self.socket = self.server.socket
 
 

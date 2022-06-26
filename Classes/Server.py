@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from thread import start_new_thread
 from socket import socket,AF_INET,SOCK_STREAM
 from .Connection import ConnectionManager
@@ -15,6 +16,8 @@ class Server:
                 while True:
                     conn = self.accept()
                     start_new_thread(this.connections.newConnection,(data,))
+        else:
+            print('server configuration is invalid...')
     def __init__(self):
         self.socket = socket(AF_INET,SOCK_STREAM)
         self.connections = ConnectionManager(self.socket)

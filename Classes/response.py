@@ -23,12 +23,17 @@ class Response:
         self.statusText = text
         self.setStatusLine()
     
+    def setBody(self,body):
+        self.body = body if type(body) == bytes else body.encode() 
+
     def send(self,data):
-        print(type(data))
+        self.setBody(body)
         
     def sendFile(self,filepath):
         responseText =""
     
+    def getResponse(self):
+
 
     def getHeaders(self):
         return self.headers
@@ -42,6 +47,6 @@ class Response:
         self.requesttarget = self.requestline.split(' ')[1]
         self.requestprotocolversion = self.requestline.split(' ')[2]
         self.headerline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
-        self.bodyline = self.data.split('\r\n\r\n')[1]
+        self.reqbodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}
         self.setHeaders()

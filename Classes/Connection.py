@@ -16,10 +16,8 @@ class Connection:
 
     def handleRequest(self,data):
         rawdata = data
-        response = ''
         request = Request(data)
         
-        print('METHOD | TARGET')
         print(request.requestmethod," | ",request.requesttarget)
         
         return response
@@ -32,8 +30,9 @@ class Connection:
 
 
 
-    def __init__(self,data,conn_time):
+    def __init__(self,man,data,conn_time):
         self.conti = 1
+        self.manager = man
         self.conn_time = conn_time
         self.rawdata = data
         self.socket = self.rawdata[0]
@@ -48,7 +47,7 @@ class ConnectionManager:
     connections = []
     def newConnection(self,data):
         try:
-            self.connections.append(Connection(data,datetime.now()))
+            self.connections.append(Connection(man,data,datetime.now()))
         except KeyboardInterrupt as e:
             print("Requested exit..shutting down server")
             print('killing server threads')

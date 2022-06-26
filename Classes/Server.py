@@ -49,14 +49,20 @@ class Server:
 
     def recap(self):
         while self.quit == False:
+            cls()
             if(self.listening):
                 print(f"-------------------------------------------------")
-                print(f"Le server http est actif sur le port | {sel.port}")
+                print(f"Le server http est actif sur le port | {self.port}")
+                print(f"Nombre de connections : {len(self.connections.connections)}")
+                print(f"-------------------------------------------------")
             else:
                 print("Le server n'est pas actif..")
                 print("Voici les parametres actuellement définis:")
-                
-
+                if(hasattr(self,'port')):
+                    print(f"port : {self.port}")
+                if(hasattr(self,'host')):
+                    print(f"hostaddress : {self.host}")
+            
             sleep(2)                   
 
     def __init__(self):
@@ -64,4 +70,5 @@ class Server:
         self.listening = False
         self.socket = socket(AF_INET,SOCK_STREAM)
         self.connections = ConnectionManager(self)
-        self.recapThread = Thread(target=self.recap)
+        self.recapThread = Thread(target=self.recap,args=())
+        self.recapThread.start()

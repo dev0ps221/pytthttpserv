@@ -3,5 +3,5 @@ from Classes.Server import Server
 
 
 server = Server()
-server.setRefs('',80)
+server.setRefs('',8000)
 server.listen()

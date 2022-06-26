@@ -10,13 +10,16 @@ from .Connection import ConnectionManager
 def cls():
     system("clear")
 
+
 class Server:
 
     threads = []
 
+
     def setRefs(self,host,port):
         self.host = host
         self.port = port
+
 
 
     def listen(self):
@@ -35,7 +38,9 @@ class Server:
                             self.threads.append(thread)
             else:
                 print('server configuration is invalid...')
+        
         except KeyboardInterrupt as e:
+
             print("Requested exit..shutting down server")
             print('killing server threads')
             for thread in self.threads:
@@ -53,17 +58,22 @@ class Server:
             if(self.listening):
                 print(f"-------------------------------------------------")
                 print(f"Le server http est actif sur le port | {self.port}")
-                print(f"Nombre de connections : {len(self.connections.connections)}")
+
+                print(f"Nombre de connections : {self.connections.getConnections()}")
                 print(f"-------------------------------------------------")
             else:
                 print("Le server n'est pas actif..")
                 print("Voici les parametres actuellement définis:")
+
                 if(hasattr(self,'port')):
                     print(f"port : {self.port}")
+
                 if(hasattr(self,'host')):
                     print(f"hostaddress : {self.host}")
             
             sleep(2)                   
+
+
 
     def __init__(self):
         self.quit = False

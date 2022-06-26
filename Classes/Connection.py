@@ -18,6 +18,12 @@ class Connection:
         rawdata = data
         request = Request(data)
         
+        statusline = "HTTP1.1 200 ok\r\n"
+        headerline = "\r\n\r\n"
+        bodyline = " okay ;) \r\n"
+        response = statusline 
+        response+=headerline 
+        response+=bodyline
         print(request.requestmethod," | ",request.requesttarget)
         
         return response
@@ -45,9 +51,11 @@ class Connection:
 
 class ConnectionManager:
     connections = []
+    def getConnections(self):
+        return self.connections
     def newConnection(self,data):
         try:
-            self.connections.append(Connection(man,data,datetime.now()))
+            self.connections.append(Connection(self,data,datetime.now()))
         except KeyboardInterrupt as e:
             print("Requested exit..shutting down server")
             print('killing server threads')

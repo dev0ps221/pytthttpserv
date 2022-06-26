@@ -31,7 +31,12 @@ class Connection:
                         for filename in dircontent:
                             for indexfile in self.manager.server.indexFiles:
                                 matchedIndex.append(filename)
-                if len(matchedIndex)
+                if len(matchedIndex):
+                else:
+                    response.setStatusCode(404)
+                    response.setStatusText('Not Found')
+                    response.send('')
+
 
 
 

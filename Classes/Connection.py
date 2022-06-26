@@ -57,10 +57,14 @@ class Response:
         self.statusText = text
         self.setStatusLine()
     
+    def send():
+        data
+
     def getHeaders(self):
         return self.headers
 
-    def __init__(self,data):
+    def __init__(self,data,socket):
+        self.socket = socket
         self.rawdata = data
         self.data = data.decode()
         self.requestline = self.data.split('\n')[0]
@@ -79,22 +83,18 @@ class Connection:
     def handleRequest(self,data):
         rawdata = data
         request = Request(data)
-        response = Response(data)
+        response = Response(data,self.socket)
         
 
 
         return request,response
 
 
-    def handleResponse(self,request,response):
-        return response.encode()
-
     def interact(self):
         while self.conti:
             data = self.socket.recv(65000)
             request,response = self.handleRequest(data)
-            self.socket.send()
-
+            
 
 
     def __init__(self,man,data,conn_time):

@@ -5,7 +5,9 @@ class Request:
 
     def setHeaders(self):
         for header in self.headerline.split('\r\n'):
-            (name,val) = header.split(':')
+            print(header)
+            name = header.split(':')[0]
+            val = ':'.join(header.split(':')[1:])
             self.headers[name] = val 
     
     def getHeaders(self):
@@ -22,7 +24,7 @@ class Request:
         self.bodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}
         self.setHeaders()
-        self.getHeaders()
+        print(self.getHeaders())
 
 
 class Connection:

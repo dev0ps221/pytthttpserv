@@ -10,8 +10,9 @@ class Request:
         self.requestmethod = self.requestline.split(' ')[0]
         self.requesttarget = self.requestline.split(' ')[1]
         self.requestprotocolversion = self.requestline.split(' ')[2]
-        self.headerline = self.data.split('\n')[1]
-        print(self.headerline,' is headerline ')
+        self.headerline = self.data.split('\n')[2]
+        print(self.headerline)
+        print(' is headerline ')
 
 class Connection:
 
@@ -26,7 +27,6 @@ class Connection:
         response = statusline 
         response+=headerline 
         response+=bodyline
-        print(request.requestmethod," | ",request.requesttarget)
         
         return response
 

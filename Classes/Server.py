@@ -81,4 +81,4 @@ class Server:
         self.socket = socket(AF_INET,SOCK_STREAM)
         self.connections = ConnectionManager(self)
         self.recapThread = Thread(target=self.recap,args=())
-        self.recapThread.start()
+        # self.recapThread.start()

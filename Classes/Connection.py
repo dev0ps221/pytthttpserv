@@ -3,6 +3,14 @@ from datetime import datetime
 
 class Request:
 
+    def setHeaders(self):
+        for header in self.headerline.split('\r\n'):
+            (name,val) = header.split(':')
+            self.headers[name] = val 
+    
+    def getHeaders(self):
+        return self.headers
+
     def __init__(self,data):
         self.rawdata = data
         self.data = data.decode()
@@ -10,9 +18,12 @@ class Request:
         self.requestmethod = self.requestline.split(' ')[0]
         self.requesttarget = self.requestline.split(' ')[1]
         self.requestprotocolversion = self.requestline.split(' ')[2]
-        self.headerline = '\n'.join(self.data.split('\r\n\r\n')[1].split('\n')[1:])
-        print(self.headerline)
-        print(' is headerline ')
+        self.headerline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
+        self.bodyline = self.data.split('\r\n\r\n')[1]
+        self.headers = {}
+        self.setHeaders()
+        self.getHeaders()
+
 
 class Connection:
 

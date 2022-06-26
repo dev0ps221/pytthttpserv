@@ -1,15 +1,27 @@
 #!/usr/bin/env python3
 from datetime import datetime
 
+class Request:
+
+    def __init__(self,data):
+        self.rawdata = data
+        self.data = data.decode()
+        self.requestline = self.data.split('\n')[0]
+        self.requestmethod = self.requestline.split(' ')[0]
+        self.requesttarget = self.requestline.split(' ')[1]
+        self.requestprotocolversion = self.requestline.split(' ')[2]
+
 class Connection:
 
 
     def handleRequest(self,data):
         rawdata = data
-        data = data.decode()
         response = ''
-        requestline = data.split('\n')[0]
-        print(requestline)
+        request = Request(data)
+        
+        print('METHOD | TARGET')
+        print(request.requestmethod," | ",request.requesttarget)
+        
         return response
 
     def interact(self):
@@ -44,7 +56,6 @@ class ConnectionManager:
             for thread in self.server.threads:
                 thread.join()
             self.socket.close()
-            self.socket.destroy()
             print('done')
             print('server socket destroyed')
             print('exiting..')

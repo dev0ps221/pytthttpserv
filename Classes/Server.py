@@ -34,7 +34,6 @@ class Server:
             for thread in self.threads:
                 thread.join()
             self.socket.close()
-            self.socket.destroy()
             print('done')
             print('server socket destroyed')
             print('exiting..')

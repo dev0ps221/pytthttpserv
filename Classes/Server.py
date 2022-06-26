@@ -10,5 +10,9 @@ class Server:
         if(hasattr(self,'host') && hasattr(self,'port')):
             if(self.port):
                 self.socket.bind((self.host,self.port))
+                self.listen()
+                while True:
+                    conn = self.accept()
+                    start_new_thread()
     def __init__(self):
         self.socket = socket(AF_INET,SOCK_STREAM)

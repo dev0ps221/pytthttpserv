@@ -15,7 +15,10 @@ class Request:
 
     def setSomeInfosProps(self):
         self.setHeaders()
-
+        self.method = self.requestmethod
+        self.target = self.requesttarget
+        self.version = self.requestprotocolversion
+        self.httpVersion = self.requestprotocolversion
 
     def __init__(self,data):
         self.rawdata = data

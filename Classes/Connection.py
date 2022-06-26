@@ -10,7 +10,7 @@ class Connection:
 
 class ConnectionManager:
     connections = []
-    def newCon(self,data):
+    def newConnection(self,data):
        self.connections.append(new Connection(data),Date())
     def __init__(self,socket):
         self.socket = socket

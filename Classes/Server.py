@@ -1,5 +1,6 @@
 from thread import start_new_thread
 from socket import socket,AF_INET,SOCK_STREAM
+from .Connection import ConnectionManager
 class Server:
 
     def setRefs(self,host,port):
@@ -13,6 +14,7 @@ class Server:
                 self.listen()
                 while True:
                     conn = self.accept()
-                    start_new_thread()
+                    start_new_thread(this.connections.newConnection,(data,))
     def __init__(self):
         self.socket = socket(AF_INET,SOCK_STREAM)
+        self.connections = ConnectionManager(self.socket)

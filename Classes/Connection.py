@@ -32,6 +32,8 @@ class Connection:
                             for indexfile in self.manager.server.indexFiles:
                                 matchedIndex.append(filename)
                 if len(matchedIndex):
+                    response.setStatus(200,'OK')
+                    response.sendFile(f"{targetpath}/{matchedIndex[0]}")
                 else:
                     response.setStatusCode(404)
                     response.setStatusText('Not Found')

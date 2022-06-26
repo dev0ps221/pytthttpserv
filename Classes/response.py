@@ -24,16 +24,19 @@ class Response:
         self.setStatusLine()
     
     def setBody(self,body):
-        self.body = body if type(body) == bytes else body.encode() 
+        self.body = f"{body}\r\n\r\n" 
 
     def send(self,data):
-        self.setBody(body)
-        
+        if data self.setBody(data)
+        response = self.getResponse()
+        response = response if type(response) == bytes else response.encode()
+        self.socket.send(response)
+
     def sendFile(self,filepath):
         responseText =""
     
     def getResponse(self):
-
+        response = f"{self.statusline}{self.headerline}\r\n\r\n{self.bodyline}"
 
     def getHeaders(self):
         return self.headers

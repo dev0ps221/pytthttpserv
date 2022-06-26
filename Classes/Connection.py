@@ -7,7 +7,7 @@ class Connection:
     def handleRequest(self,data):
         response = ''
         requestline = data.split('\n')[0]
-
+        print(requestline)
         return response
 
     def interact(self):

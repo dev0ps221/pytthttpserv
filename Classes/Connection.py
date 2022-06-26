@@ -24,7 +24,6 @@ class Request:
         self.bodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}
         self.setHeaders()
-        print(self.getHeaders())
 
 
 class Connection:
@@ -43,11 +42,15 @@ class Connection:
         
         return response
 
+
+    def handleResponse(self,request,response):
+        return response.encode()
+
     def interact(self):
         while self.conti:
             data = self.socket.recv(65000)
             response = self.handleRequest(data)
-            self.socket.send(response.encode())
+            self.socket.send()
 
 
 

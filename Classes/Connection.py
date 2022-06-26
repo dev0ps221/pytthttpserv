@@ -10,7 +10,7 @@ class Request:
         self.requestmethod = self.requestline.split(' ')[0]
         self.requesttarget = self.requestline.split(' ')[1]
         self.requestprotocolversion = self.requestline.split(' ')[2]
-        self.headerline = self.data.split('\r\n\r\n').split('\n')[1:].join('\n')
+        self.headerline = '\n'.join(self.data.split('\r\n\r\n')[1].split('\n')[1:])
         print(self.headerline)
         print(' is headerline ')
 

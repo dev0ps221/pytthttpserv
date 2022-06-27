@@ -39,7 +39,7 @@ class Response:
         self.bodyline = f"{self.body}\r\n\r\n\n"
 
     def setHeaderLine(self):
-        self.headerline = '\n'.join(f"{name:self.headers[name]}" for name in self.headers)
+        self.headerline = '\n'.join(f"{name}:{self.headers[name]}" for name in self.headers)
     
     def setHeader(self,name,val):
         self.headers[name]=val

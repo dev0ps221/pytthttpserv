@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from gzip import compress
+from gzip import  compress
 class Response:
 
     statusCode = ''
@@ -63,9 +63,9 @@ class Response:
             with open(filepath,'rb') as f:
                 responseText = f.read()
                 f.close()
-            responseText = responseText if type(responseText) == bytes else responseText.encode()
+            # responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.setHeader('Content-Length',len(responseText))
-            self.setHeader('Content-Encoding','gzip, deflate')
+            self.setHeader('Content-Encoding','gzip')
             self.send(compress(responseText))
         else:
             self.setStatus(500,"Internal Server Error") 

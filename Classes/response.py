@@ -30,13 +30,16 @@ class Response:
         self.setStatusLine()
     
     def setBody(self,body):
-        self.body = f"{body}\r\n\r\n" if body else self.body 
+        self.body = f"{body}" if body else self.body 
+        self.setBodyLine()
+
+    def setBodyLine(self):
+        self.bodyline = f"{self.body}\r\n\r\n"
 
     def send(self,data):
         self.setBody(data)
         response = self.getResponse()
         response = response if type(response) == bytes else response.encode()
-        print(response)
         self.socket.send(response)
 
     def sendFile(self,filepath):
@@ -60,7 +63,7 @@ class Response:
         self.socket = socket
         self.rawdata = data
         self.data = data.decode()
-        self.requestline = self.data.split('\n')[0]
+        self.requestline = self.data.split('\r\n')[0]
         self.requestmethod = self.requestline.split(' ')[0]
         self.requesttarget = self.requestline.split(' ')[1]
         self.requestprotocolversion = self.requestline.split(' ')[2]

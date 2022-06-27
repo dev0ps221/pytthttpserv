@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from gzip import compress
 class Response:
 
     statusCode = ''
@@ -49,8 +50,9 @@ class Response:
     def send(self,data):
         self.setBody(data)
         response = self.getResponse()
+        print('this is our final response string ',response)
         response = response if type(response) == bytes else response.encode()
-        self.socket.send(response)
+        self.socket.sendall(response)
 
     
 
@@ -63,13 +65,14 @@ class Response:
                 f.close()
             responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.setHeader('Content-Length',len(responseText))
-            self.send(responseText)
+            self.setHeader('Content-Encoding','gzip')
+            self.send(compress(responseText))
         else:
             self.setStatus(500,"Internal Server Error") 
             self.send('\r\n')
     
     def getResponse(self):
-        return """{}{}{}""".format(self.statusline,self.headerline,self.bodyline) 
+        return f"""{self.statusline}{self.headerline}{self.bodyline}""" 
 
     def getHeaders(self):
         return self.headers

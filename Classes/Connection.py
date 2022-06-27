@@ -37,7 +37,7 @@ class Connection:
                                 matchedIndex.append(indexfile)
                     if len(matchedIndex):
                         response.setStatus(200,'OK')
-                        response.setHeader('Content-Type',"text/html")
+                        response.setHeader('Content-Type',"text/html; charset=utf-8")
                         response.sendFile(f"{targetpath}/{matchedIndex[0]}")
                     else:
                         print(matchedIndex,' is matched')

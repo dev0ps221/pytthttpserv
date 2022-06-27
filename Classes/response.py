@@ -36,13 +36,14 @@ class Response:
         self.setBody(data)
         response = self.getResponse()
         response = response if type(response) == bytes else response.encode()
+        print(response)
         self.socket.send(response)
 
     def sendFile(self,filepath):
         responseText = ""
         if filepath:
             with open(filepath) as f:
-                responseText = f.readlines()
+                responseText = '\n'.join(f.readlines())
                 f.close()
             self.send(responseText)
         else:

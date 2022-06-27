@@ -5,6 +5,7 @@ class Response:
     statusCode = ''
     statusText = ''
     statusline = ''
+    headerline = ''
     bodyline   = '' 
     body       = ''
 
@@ -13,6 +14,7 @@ class Response:
             name = header.split(':')[0]
             val = ':'.join(header.split(':')[1:])
             self.headers[name] = val 
+        self.setHeaderLine()
     
     def setStatus(self,code,text):
         self.setStatusCode(code if code else self.statusCode)
@@ -34,7 +36,14 @@ class Response:
         self.setBodyLine()
 
     def setBodyLine(self):
-        self.bodyline = f"{self.body}\r\n\r\n"
+        self.bodyline = f"{self.body}\r\n\r\n\n"
+
+    def setHeaderLine(self):
+        self.headerline = '\n'.join(f"{name:self.headers[name]}" for name in self.headers)
+    
+    def setHeader(self,name,val):
+        self.headers[name]=val
+        self.setHeaderLine()
 
     def send(self,data):
         self.setBody(data)
@@ -42,12 +51,16 @@ class Response:
         response = response if type(response) == bytes else response.encode()
         self.socket.send(response)
 
+    
+
+
     def sendFile(self,filepath):
         responseText = ""
         if filepath:
-            with open(filepath) as f:
-                responseText = '\n'.join(f.readlines())
+            with open(filepath,'rb') as f:
+                responseText = b'\n'.join(f.readlines())
                 f.close()
+            responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.send(responseText)
         else:
             self.setStatus(500,"Internal Server Error") 
@@ -71,7 +84,7 @@ class Response:
         self.requestmethod = self.requestline.split(' ')[0]
         self.requesttarget = self.requestline.split(' ')[1]
         self.requestprotocolversion = self.requestline.split(' ')[2]
-        self.headerline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
+        self.reqheaderline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
         self.reqbodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}
         self.setHeaders()

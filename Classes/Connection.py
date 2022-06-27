@@ -35,16 +35,17 @@ class Connection:
                             for indexfile in self.manager.server.indexFiles:
                                 print(indexfile)
                                 matchedIndex.append(indexfile)
+                    if len(matchedIndex):
+                        response.setStatus(200,'OK')
+                        response.sendFile(f"{targetpath}/{matchedIndex[0]}")
+                    else:
+                        print(matchedIndex,' is matched')
+                        response.setStatusCode(404)
+                        response.setStatusText('Not Found')
+                        response.send('\r\n')
                 else:
-                    print(path.isdir(targetpath),' means its a dir')
-                if len(matchedIndex):
-                    response.setStatus(200,'OK')
-                    response.sendFile(f"{targetpath}/{matchedIndex[0]}")
-                else:
-                    print(matchedIndex,' is matched')
-                    response.setStatusCode(404)
-                    response.setStatusText('Not Found')
-                    response.send('\r\n')
+                    if path.isfile(targetpath):
+                        response.sendFile(targetpath)
 
 
 

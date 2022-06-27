@@ -21,7 +21,7 @@ class Response:
         self.setStatusText(text if text else self.statusText)
 
     def setStatusLine(self):
-        self.statusline = f"{self.requestprotocolversion} {self.statusCode} {self.statusText}\r\n"
+        self.statusline = f"{self.requestprotocolversion} {self.statusCode} {self.statusText}\n"
     
     def setStatusCode(self,code):
         self.statusCode = code
@@ -36,10 +36,11 @@ class Response:
         self.setBodyLine()
 
     def setBodyLine(self):
-        self.bodyline = f"{self.body}\r\n\r\n\n"
+        self.bodyline = f"{self.body}"
 
     def setHeaderLine(self):
         self.headerline = '\n'.join(f"{name}:{self.headers[name]}" for name in self.headers)
+        self.headerline+='\n\n'
     
     def setHeader(self,name,val):
         self.headers[name]=val
@@ -58,20 +59,17 @@ class Response:
         responseText = ""
         if filepath:
             with open(filepath,'rb') as f:
-                responseText = b'\n'.join(f.readlines())
+                responseText = f.read()
                 f.close()
             responseText = responseText if type(responseText) == bytes else responseText.encode()
+            self.setHeader('Content-Length',len(responseText))
             self.send(responseText)
         else:
             self.setStatus(500,"Internal Server Error") 
             self.send('\r\n')
     
     def getResponse(self):
-        return """{}
-        {}
-        
-        
-        {}""".format(self.statusline,self.headerline,self.bodyline) 
+        return """{}{}{}""".format(self.statusline,self.headerline,self.bodyline) 
 
     def getHeaders(self):
         return self.headers
@@ -82,8 +80,8 @@ class Response:
         self.data = data.decode()
         self.requestline = self.data.split('\r\n')[0]
         self.requestmethod = self.requestline.split(' ')[0]
-        self.requesttarget = self.requestline.split(' ')[1]
-        self.requestprotocolversion = self.requestline.split(' ')[2]
+        self.requesttarget = self.requestline.split(' ')[1] if len(self.requestline.split(' ')) > 1 else ''
+        self.requestprotocolversion = self.requestline.split(' ')[2] if len(self.requestline.split(' ')) > 2 else ''
         self.reqheaderline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
         self.reqbodyline = self.data.split('\r\n\r\n')[1]
         self.headers = {}

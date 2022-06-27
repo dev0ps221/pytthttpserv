@@ -37,12 +37,13 @@ class Connection:
                                 matchedIndex.append(indexfile)
                     if len(matchedIndex):
                         response.setStatus(200,'OK')
+                        response.setHeader('Content-Type',"text/html")
                         response.sendFile(f"{targetpath}/{matchedIndex[0]}")
                     else:
                         print(matchedIndex,' is matched')
                         response.setStatusCode(404)
                         response.setStatusText('Not Found')
-                        response.send('\r\n')
+                        response.send('Path not accessible\r\n')
                 else:
                     if path.isfile(targetpath):
                         response.sendFile(targetpath)

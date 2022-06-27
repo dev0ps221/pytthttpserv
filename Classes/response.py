@@ -60,19 +60,21 @@ class Response:
     def sendFile(self,filepath):
         responseText = ""
         if filepath:
-            with open(filepath,'rb') as f:
+            with open(filepath,'r') as f:
                 responseText = f.read()
                 f.close()
             # responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.setHeader('Content-Length',len(responseText))
-            self.setHeader('Content-Encoding','gzip')
-            self.send(compress(responseText))
+            # self.setHeader('Content-Encoding','gzip')
+            self.send((responseText))
         else:
             self.setStatus(500,"Internal Server Error") 
             self.send('\r\n')
     
     def getResponse(self):
-        return f"""{self.statusline}{self.headerline}{self.bodyline}""" 
+        return f"""{self.statusline}{self.headerline}{self.bodyline}\n
+        
+        """ 
 
     def getHeaders(self):
         return self.headers

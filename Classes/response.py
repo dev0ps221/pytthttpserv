@@ -2,6 +2,12 @@
 
 class Response:
 
+    statusCode = ''
+    statusText = ''
+    statusline = ''
+    bodyline   = '' 
+    body       = ''
+
     def setHeaders(self):
         for header in self.headerline.split('\r\n'):
             name = header.split(':')[0]
@@ -24,16 +30,24 @@ class Response:
         self.setStatusLine()
     
     def setBody(self,body):
-        self.body = f"{body}\r\n\r\n" 
+        self.body = f"{body}\r\n\r\n" if body else self.body 
 
     def send(self,data):
-        if data self.setBody(data)
+        self.setBody(data)
         response = self.getResponse()
         response = response if type(response) == bytes else response.encode()
         self.socket.send(response)
 
     def sendFile(self,filepath):
-        responseText =""
+        responseText = ""
+        if filepath:
+            with open(filepath) as f:
+                responseText = f.readlines()
+                f.close()
+            self.send(responseText)
+        else:
+            self.setStatus(500,"Internal Server Error") 
+            self.send('')
     
     def getResponse(self):
         response = f"{self.statusline}{self.headerline}\r\n\r\n{self.bodyline}"

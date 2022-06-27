@@ -65,7 +65,7 @@ class Response:
                 f.close()
             responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.setHeader('Content-Length',len(responseText))
-            self.setHeader('Content-Encoding','gzip')
+            self.setHeader('Content-Encoding','gzip, deflate')
             self.send(compress(responseText))
         else:
             self.setStatus(500,"Internal Server Error") 

@@ -47,10 +47,10 @@ class Response:
             self.send(responseText)
         else:
             self.setStatus(500,"Internal Server Error") 
-            self.send('')
+            self.send('\r\n')
     
     def getResponse(self):
-        response = f"{self.statusline}{self.headerline}\r\n\r\n{self.bodyline}"
+        return f"{self.statusline}{self.headerline}\r\n\r\n{self.bodyline}" 
 
     def getHeaders(self):
         return self.headers

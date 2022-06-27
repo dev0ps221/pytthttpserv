@@ -22,22 +22,29 @@ class Connection:
             data = self.socket.recv(65000)
             request,response = self.handleRequest(data)            
             if(request.method == "GET"):
-                targetpath = f"={self.manager.server.viewspath}/{request.target}"
-                print(f" tryna get {request.target}")
+                targetpath = f"={self.manager.server.viewspath}{request.target if request.target != '/' else '/'}"
+                print(f" tryna get {targetpath}")
                 matchedIndex = []
                 if(path.isdir(targetpath)):
+                    print(self.manager.server.getDirContent(targetpath))
+                    print(targetpath,' is our targetpath deh')
                     dircontent = self.manager.server.getDirContent(targetpath)
                     if len(dircontent):
                         for filename in dircontent:
+                            print(filename)
                             for indexfile in self.manager.server.indexFiles:
+                                print(indexfile)
                                 matchedIndex.append(filename)
+                    else:
+                        print(path.isdir(dircontent),' means its a dir')
                 if len(matchedIndex):
                     response.setStatus(200,'OK')
                     response.sendFile(f"{targetpath}/{matchedIndex[0]}")
                 else:
+                    print(matchedIndex,' is matched')
                     response.setStatusCode(404)
                     response.setStatusText('Not Found')
-                    response.send('')
+                    response.send('\r\n')
 
 
 

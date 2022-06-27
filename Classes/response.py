@@ -54,7 +54,11 @@ class Response:
             self.send('\r\n')
     
     def getResponse(self):
-        return f"{self.statusline}{self.headerline}\r\n\r\n{self.bodyline}" 
+        return """{}
+        {}
+        
+        
+        {}""".format(self.statusline,self.headerline,self.bodyline) 
 
     def getHeaders(self):
         return self.headers

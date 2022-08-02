@@ -40,7 +40,6 @@ class Connection:
                         response.setHeader('Content-Type',"text/html; charset=utf-8")
                         response.sendFile(f"{targetpath}/{matchedIndex[0]}")
                     else:
-                        print(matchedIndex,' is matched')
                         response.setStatusCode(404)
                         response.setStatusText('Not Found')
                         response.send('Path not accessible\r\n')

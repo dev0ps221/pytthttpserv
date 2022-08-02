@@ -59,6 +59,7 @@ class Response:
 
 
     def sendFile(self,filepath):
+        [print(header) for header in self.request.headers]
         responseText = ""
         if filepath:
             with open(filepath,'r') as f:
@@ -67,6 +68,7 @@ class Response:
             # responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.setHeader('Content-Length',len(responseText))
             self.setHeader('Server',"TEKTECH")
+            self.setHeader('Connection',"close")
             print(self.headers)
             # self.setHeader('Content-Encoding','gzip')
             self.send((responseText))
@@ -83,6 +85,7 @@ class Response:
         return self.headers
 
     def __init__(self,data,socket,request):
+        self.request = request
         self.socket = socket
         self.rawdata = data
         self.data = data.decode()

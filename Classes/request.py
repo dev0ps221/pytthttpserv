@@ -23,7 +23,7 @@ class Request:
         self.data = data.decode()
         self.requestline = self.data.split('\n')[0]
         self.requestmethod = self.requestline.split(' ')[0]
-        self.requesttarget = self.requestline.split(' ')[1]
+        self.requesttarget = self.requestline.split(' ')[1] if len(self.requestline.split(' ')) > 1 else ""
         self.requestprotocolversion = self.requestline.split(' ')[2]
         self.headerline = '\r\n'.join(self.data.split('\r\n\r\n')[0].split('\r\n')[1:])
         self.bodyline = self.data.split('\r\n\r\n')[1]

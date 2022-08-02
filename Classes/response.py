@@ -37,7 +37,7 @@ class Response:
         self.setBodyLine()
 
     def setBodyLine(self):
-        self.bodyline = f"{self.body}"
+        self.bodyline = f"{self.body}\r\n\r\n"
 
     def setHeaderLine(self):
         self.headerline = '\n'.join(f"{name}:{self.headers[name]}" for name in self.headers)
@@ -53,6 +53,7 @@ class Response:
         print('this is our final response string ',response)
         response = response if type(response) == bytes else response.encode()
         self.socket.sendall(response)
+        self.socket.send(b'\r\n')
 
     
 
@@ -61,10 +62,12 @@ class Response:
         responseText = ""
         if filepath:
             with open(filepath,'r') as f:
-                responseText = f.read()
+                responseText = f"{f.read()}\r\n"
                 f.close()
             # responseText = responseText if type(responseText) == bytes else responseText.encode()
             self.setHeader('Content-Length',len(responseText))
+            self.setHeader('Server',"TEKTECH")
+            print(self.headers)
             # self.setHeader('Content-Encoding','gzip')
             self.send((responseText))
         else:

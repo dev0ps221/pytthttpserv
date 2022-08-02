@@ -82,7 +82,7 @@ class Response:
     def getHeaders(self):
         return self.headers
 
-    def __init__(self,data,socket):
+    def __init__(self,data,socket,request):
         self.socket = socket
         self.rawdata = data
         self.data = data.decode()

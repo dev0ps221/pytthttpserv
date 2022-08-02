@@ -13,7 +13,7 @@ class Connection:
     def handleRequest(self,data):
         rawdata = data
         request = Request(data)
-        response = Response(data,self.socket)
+        response = Response(data,self.socket,request)
         return request,response
 
 
